@@ -1,0 +1,20 @@
+services:
+
+  frontend-blue:
+    image: bhavyatank13/blue-green-project/frontend-app:${TAG}
+    container_name: frontend-blue
+    environment:
+      - VERSION=${VERSION}
+      - ENVIRONMENT=blue
+    ports:
+      - "3001:3000"
+
+
+  backend-blue:
+    image: bhavyatank13/blue-green-project/backend-app:${TAG}
+    container_name: backend-blue
+    environment:
+      - VERSION=${VERSION}
+      - ENVIRONMENT=blue
+    ports:
+      - "5001:5000"
