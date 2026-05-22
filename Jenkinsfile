@@ -3,9 +3,9 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB = 'YOUR_DOCKERHUB_USERNAME'
+        DOCKER_HUB = 'bhavyatank13'
         IMAGE_TAG = "${BUILD_NUMBER}"
-        APP_SERVER = 'ubuntu@APP_SERVER_IP'
+        APP_SERVER = 'ubuntu@13.201.98.127'
     }
 
     stages {
@@ -13,7 +13,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git branch: 'main',
-                url: 'YOUR_GITHUB_REPO_URL'
+                url: 'https://github.com/bhavya-zignuts/blue-green-project.git'
             }
         }
 
