@@ -10,13 +10,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
-            steps {
-                git branch: 'main',
-                url: 'https://github.com/bhavya-zignuts/blue-green-project.git'
-            }
-        }
-
         stage('Build Frontend Image') {
             steps {
                 sh '''
@@ -35,6 +28,7 @@ pipeline {
 
         stage('Docker Login') {
             steps {
+
                 withCredentials([
                     usernamePassword(
                         credentialsId: 'dockerhub-creds',
@@ -66,73 +60,5 @@ pipeline {
             }
         }
 
-        stage('Deploy Green Environment') {
-            steps {
-
-                sh """
-                ssh -o StrictHostKeyChecking=no $APP_SERVER '
-                export TAG=$IMAGE_TAG
-
-                docker pull $DOCKER_HUB/frontend-app:$IMAGE_TAG
-                docker pull $DOCKER_HUB/backend-app:$IMAGE_TAG
-
-                cd /opt/blue-green-deployment
-
-                docker compose -f docker-compose.green.yml up -d
-                '
-                """
-            }
-        }
-
-        stage('Health Check') {
-            steps {
-
-                sh """
-                ssh -o StrictHostKeyChecking=no $APP_SERVER '
-                curl -f http://localhost:3002/health
-                '
-                """
-            }
-        }
-
-        stage('Switch Nginx Traffic') {
-            steps {
-
-                sh """
-                ssh -o StrictHostKeyChecking=no $APP_SERVER '
-                sudo cp /opt/blue-green-deployment/nginx/green.conf /etc/nginx/sites-available/default
-
-                sudo nginx -t
-
-                sudo systemctl reload nginx
-                '
-                """
-            }
-        }
-
-        stage('Remove Blue Containers') {
-            steps {
-
-                sh """
-                ssh -o StrictHostKeyChecking=no $APP_SERVER '
-                docker rm -f frontend-blue backend-blue || true
-                '
-                """
-            }
-        }
-    }
-
-    post {
-
-        failure {
-
-            sh """
-            ssh -o StrictHostKeyChecking=no $APP_SERVER '
-            sudo cp /opt/blue-green-deployment/nginx/blue.conf /etc/nginx/sites-available/default
-
-            sudo systemctl reload nginx
-            '
-            """
-        }
     }
 }
