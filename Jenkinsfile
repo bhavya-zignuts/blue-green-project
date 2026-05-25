@@ -73,7 +73,7 @@ pipeline {
     environment {
         DOCKER_HUB = 'bhavyatank13'
         IMAGE_TAG = "${BUILD_NUMBER}"
-        APP_SERVER = 'ubuntu@13.201.98.127'
+        APP_SERVER = 'ubuntu@13.203.209.95'
     }
 
     stages {
