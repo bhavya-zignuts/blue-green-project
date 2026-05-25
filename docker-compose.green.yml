@@ -1,20 +1,37 @@
+# services:
+
+#   frontend-green:
+#     image: bhavyatank13/blue-green-project/frontend-app:${TAG}
+#     container_name: frontend-green
+#     environment:
+#       - VERSION=${VERSION}
+#       - ENVIRONMENT=green
+#     ports:
+#       - "3002:3000"
+
+
+#   backend-green:
+#     image: bhavyatank13/blue-green-project/backend-app:${TAG}
+#     container_name: backend-green
+#     environment:
+#       - VERSION=${VERSION}
+#       - ENVIRONMENT=green
+#     ports:
+#       - "5002:5000"
+
+
 services:
 
   frontend-green:
-    image: bhavyatank13/blue-green-project/frontend-app:${TAG}
+    image: bhavyatank13/frontend-app:${TAG}
     container_name: frontend-green
-    environment:
-      - VERSION=${VERSION}
-      - ENVIRONMENT=green
+
     ports:
       - "3002:3000"
 
-
   backend-green:
-    image: bhavyatank13/blue-green-project/backend-app:${TAG}
+    image: bhavyatank13/backend-app:${TAG}
     container_name: backend-green
-    environment:
-      - VERSION=${VERSION}
-      - ENVIRONMENT=green
+
     ports:
       - "5002:5000"
