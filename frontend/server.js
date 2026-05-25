@@ -26,7 +26,7 @@ const app = express()
 const PORT = 3000
 
 app.get('/', (req, res) => {
-    res.send('Hello From Frontend V1 updated')
+    res.send('Hello From Frontend V1 updated with new changes')
 })
 
 app.get('/health', (req, res) => {
